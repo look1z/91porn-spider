@@ -2,6 +2,8 @@
 you can input the number of the posts of 91porn.
 Then 91spider can download the picture automatically from the post in 91porn.
 
+可以用来批量下载91视频，图片。
+
 
 ## test.py
 test.py是91视频爬虫，源代码来自**91_spider**，7月31日优化了链接，代理（主要解决速度问题），多线程。
