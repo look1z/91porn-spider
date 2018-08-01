@@ -27,9 +27,6 @@ def random_ip():
 
 
 def spider(flag):
-#for flag in range(6, 100):
-
-    #flag = 5
     tittle = []
     base_url = 'http://91.91p27.space/view_video.php?viewkey='
     page_url = 'http://91.91p27.space/v.php?next=watch&page='+str(flag)
