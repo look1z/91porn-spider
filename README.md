@@ -11,6 +11,11 @@ Then 91spider can download the picture automatically from the post in 91porn.
 ## test.py
 test.py是91视频爬虫，源代码来自**91_spider**，7月31日优化了链接，代理（主要解决速度问题），多线程。
 
+使用：
+python test.py 线程数
+如：
+python test.py 10 将指定线程数为10
+
 ## test2.py
 test2.py是91论坛图片爬虫，输入id区间即可批量下载图片
 
@@ -26,6 +31,11 @@ test2.py是91论坛图片爬虫，输入id区间即可批量下载图片
 
 对test.py的模块进行了备注；
 
+## 9月22日更新
+
+更新了代理判断，现在进入的时候可以自由选择是否开启代理与配置代理；
+添加了进度条模块，视频下载时会有进度显示，并提供当前下载速度，预计完成时间等信息；
+添加了线程参数，默认第一个参数为线程数（默认线程为5）；
 
 
 
