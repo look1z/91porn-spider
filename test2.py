@@ -32,7 +32,6 @@ class spider91(threading.Thread):
             if not os.path.exists(fileName):
                 os.mkdir(fileName)
 
-
         img_urls1 = re.findall('file="attachments(.*?)"', r.content)
         img_urls2 = re.findall('attachments(.*?)"', r.content)
         img_urls = img_urls1+img_urls2
