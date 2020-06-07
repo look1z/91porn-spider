@@ -55,7 +55,7 @@ def download_mp4(url,dir,my_proxies):
     filename=str(dir)+'/1.mp4'
     total_length = int(req.headers.get("Content-Length"))
     print ('start to download' + url)
-    with open(filename,'wb') as f:
+    with open(filename, 'wb') as f:
         widgets = ['Progress: ', progressbar.Percentage(), ' ',
                    progressbar.Bar(marker='#', left='[', right=']'),
                    ' ', progressbar.ETA(), ' ', progressbar.FileTransferSpeed()]
@@ -68,6 +68,7 @@ def download_mp4(url,dir,my_proxies):
         pbar.finish()
         #f.write(req.content)
 
+
 # 视频页中，预览图下载函数
 def download_img(url,dir):
     headers={'User-Agent':'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/63.0.3239.132 Safari/537.36Name','Referer':'http://91porn.com'}
@@ -78,31 +79,29 @@ def download_img(url,dir):
 
 # 定义随机ip地址
 def random_ip():
-    a=random.randint(1,255)
-    b=random.randint(1,255)
-    c=random.randint(1,255)
-    d=random.randint(1,255)
-    return(str(a)+'.'+str(b)+'.'+str(c)+'.'+str(d))
+    a=random.randint(1, 255)
+    b=random.randint(1, 255)
+    c=random.randint(1, 255)
+    d=random.randint(1, 255)
+    return (str(a)+'.'+str(b)+'.'+str(c)+'.'+str(d))
 
 
 # 爬虫主体，flag为页码
 def spider(flag):
     tittle = []
-    # 这里把base_url替换成你知道的标准地址
+    # 如果连接访问不了，在这里把base_url替换成你知道的标准地址
     base_url = 'http://0314.91p47.com/view_video.php?viewkey='
     page_url = 'http://0314.91p47.com/v.php?category=top&viewtype=basic&page='+str(flag)
-    # 原page_url = 'http://91.91p27.space/v.php?next=watch&page=' + str(flag)
     headers = {
         'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/63.0.3239.132 Safari/537.36Name',
         'Referer': 'http://91porn.com'}
     get_page=requests.get(url=page_url, headers=headers)
-    # print get_page.content
     # 利用正则匹配出特征地址
-    #viewkey=re.findall(r'<a target=blank href="http://0314.91p47.com/view_video.php\?viewkey=(.*)&page=.*&viewtype=basic&category=.*?">\n                    <img ',str(get_page.content))
     viewkey = re.findall(
         r'<a target=blank href="http://0314.91p47.com/view_video.php\?viewkey=(.*)&page=.*&viewtype=basic&category=.*?">',
         str(get_page.content))
-    print viewkey
+    for eachkey in viewkey:
+        print ('find:'+eachkey)
     # 遍历每个特征地址，并进行爬取
     for key in viewkey:
         headers={'Accept-Language':'zh-CN,zh;q=0.9',
@@ -153,7 +152,8 @@ if __name__ == '__main__':
     else:
         threads = int(sys.argv[1])
     for i in range(threads):
-        t = threading.Thread(target=spider, args=(i,))
+        # 爬取的页数在这里传入，1为1页
+        t = threading.Thread(target=spider, args=(1,))
         t.start()
 
 
