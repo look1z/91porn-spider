@@ -18,7 +18,7 @@ def proxy_set():
     if proxy_set == 'y':
         global my_proxies
         proxies_set = raw_input('input your proxy config ep:"127.0.0.1:8080"')
-        my_proxies = {"http": "http://127.0.0.1:8080", "https": "https://127.0.0.1:8080"}
+        my_proxies = {"http": "http://127.0.0.1:10809", "https": "https://127.0.0.1:10809"}
         if proxies_set != '':
             my_proxies['http'] = 'http://'+proxies_set
             my_proxies['https'] = 'https://'+proxies_set
@@ -90,19 +90,23 @@ def random_ip():
 def spider(flag):
     tittle = []
     # 如果连接访问不了，在这里把base_url替换成你知道的标准地址
-    base_url = 'http://0314.91p47.com/view_video.php?viewkey='
-    page_url = 'http://0314.91p47.com/v.php?category=top&viewtype=basic&page='+str(flag)
+    base_url = 'http://f1020.workarea5.live/view_video.php?viewkey='
+    page_url = 'http://f1020.workarea5.live/v.php?category=top&viewtype=basic&page='+str(flag)
     headers = {
         'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/63.0.3239.132 Safari/537.36Name',
         'Referer': 'http://91porn.com'}
     get_page=requests.get(url=page_url, headers=headers)
     # 利用正则匹配出特征地址
     viewkey = re.findall(
-        r'<a target=blank href="http://0314.91p47.com/view_video.php\?viewkey=(.*)&page=.*&viewtype=basic&category=.*?">',
+        r'viewkey=(.*)&page',
         str(get_page.content))
     for eachkey in viewkey:
         print ('find:'+eachkey)
+    ################################
     # 遍历每个特征地址，并进行爬取
+    #
+    # 强烈建议在这里调试通了，viewkey就是当前页面下所有视频的url地址变量
+    #####################################
     for key in viewkey:
         headers={'Accept-Language':'zh-CN,zh;q=0.9',
                  'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; WOW64; rv:66.0) Gecko/20100101 Firefox/66.0',
@@ -113,12 +117,18 @@ def spider(flag):
                  'Upgrade-Insecure-Requests': '1',
                  }
         base_req = requests.get(url=base_url+key,headers=headers)
-        pattern_video = re.compile('document.write\(strencode\("(.*)"')
-        a = pattern_video.findall(base_req.content)
-        a = a[0].split(',')
-        input = a[0].replace('"', '')
-        encode_key = a[1].replace('"', '')
-        video_url = strdecode(input=input, key=encode_key)
+        strencode = re.findall(r'strencode2\(\"(.*)\"\)', str(base_req.content))
+        ##################################################
+        # 目前修复到这里，strencode是可以正常爬取到的，
+        # 举个例子：
+        # 返回值类似：“%3c%73%6f%75%72%63%65%20%73%72%63%3d%27%68%74%74%70%73%3a%2f%2f%63%64%6e%2e%
+        # 77%6f%72%6b%67%72%65%61%74%31%34%2e%6c%69%76%65%2f%2f%6d%33%75%38%2f%35%33%31%30%38%35%2f%3
+        # 5%33%31%30%38%35%2e%6d%33%75%38%3f%73%74%3d%5a%38%4a%32%38%79%4e%32%5a%78%6b%33%61%4b%4b%35
+        # %5a%61%37%73%71%77%26%65%3d%31%36%33%35%32%34%36%33%31%39%27%20%74%79%70%65%3d%27%61%70%70%6
+        # c%69%63%61%74%69%6f%6e%2f%78%2d%6d%70%65%67%55%52%4c%27%3e”
+        # url解码后，可以看到关于m3u8的，所以后面的下载方式要有重大变化了
+        ##################################################
+        video_url = strdecode(input=input, key=strencode[0])
         tittle = re.findall(r'<h4 class="login_register_header" align=left>(.*?)</h4>', base_req.content, re.S)
         img_url = re.findall(r'poster="(.*?)"',str(base_req.content))
         t = 'not-find-name' + key
