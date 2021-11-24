@@ -180,8 +180,8 @@ def random_ip():
 def spider(flag):
     tittle = []
     # 如果连接访问不了，在这里把base_url替换成你知道的标准地址
-    base_url = 'https://f1020.workarea5.live/view_video.php?viewkey='
-    page_url = 'https://f1020.workarea5.live/v.php?&page='+str(flag)
+    base_url = 'https://xxxxxxxxxxxxxxxx/view_video.php?viewkey='
+    page_url = 'https://xxxxxxxxxxxxxxxx/v.php?&page='+str(flag)
     headers = {
         'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/63.0.3239.132 Safari/537.36Name',
         'Referer': 'https://91porn.com'}
