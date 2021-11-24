@@ -6,7 +6,8 @@ Then 91spider can download the picture automatically from the post in 91porn.
 
 ## 使用说明
 
-代码编写于python2.7环境下，依赖于requests库，自行下载安装环境文件。
+~~代码编写于python2.7环境下，依赖于requests库，自行下载安装环境文件。~~
+代码编写于python3环境下，请自行使用requirements.txt安装所需库。
 
 ## test.py
 test.py是91视频爬虫，源代码来自**91_spider**，7月31日优化了链接，代理（主要解决速度问题），多线程。
@@ -17,7 +18,7 @@ python test.py 线程数
 python test.py 10 将指定线程数为10
 
 ## test2.py
-test2.py是91论坛图片爬虫，输入id区间即可批量下载图片
+~~test2.py是91论坛图片爬虫，输入id区间即可批量下载图片~~
 
 ## 18年8月1日更新
 
@@ -53,6 +54,9 @@ test2.py是91论坛图片爬虫，输入id区间即可批量下载图片
 * 修复了一下爬取viewkey失败的问题
 * 但是目前仍没有解决m3u8的视频下载问题，后台框架更新了不再单是一个mp4文件了
 
+## 21年10月27日更新
+
+* 整好了。加了个mysql存储。
 
 
 使用方法：
